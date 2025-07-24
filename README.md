@@ -19,7 +19,7 @@ The **User Registration App** provides a clean, multi-stage onboarding process:
 
 
 ###  Email Signup  
-![Email Signup Screen](app/screenshots/step2.png)
+![Email Signup Screen](https://raw.githubusercontent.com/roshannsharma/UserSingupApp/refs/heads/master/app/screenshots/step2.jpeg)
 
 ###  OTP Verification  
 ![OTP Verification Screen](screenshots/otp_verification.png)

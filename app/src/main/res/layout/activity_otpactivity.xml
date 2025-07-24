@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/login_credential_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background"
+        android:padding="24dp">
+
+        <ImageView
+            android:id="@+id/logoImageView"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:contentDescription="@string/woliba_logo"
+            android:src="@drawable/wolibaa"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardOtp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_xx_large"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="6dp"
+            app:cardMaxElevation="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/logoImageView">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="24dp">
+
+                <!-- Title -->
+                <TextView
+                    android:id="@+id/tvOtpTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/space_medium"
+                    android:text="@string/input_verification_code"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/font_14"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.2dp"
+                    android:background="@color/grey_color" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp" />
+
+                <!-- Subtext -->
+                <TextView
+                    android:id="@+id/tvOtpDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/space_xx_large"
+                    android:gravity="center"
+                    android:text="@string/we_ve_sent_a_6_digit_otp"
+                    android:textColor="@color/grey_color_date"
+                    android:textSize="@dimen/font_12" />
+
+                <!-- OTP EditTexts -->
+                <LinearLayout
+                    android:id="@+id/otpInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_medium"
+                    android:layout_marginBottom="@dimen/space_xx_large"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <!-- Create 6 boxes -->
+                    <EditText
+                        android:id="@+id/etOtp1"
+                        style="@style/OtpBox" />
+
+                    <EditText
+                        android:id="@+id/etOtp2"
+                        style="@style/OtpBox" />
+
+                    <EditText
+                        android:id="@+id/etOtp3"
+                        style="@style/OtpBox" />
+
+                    <EditText
+                        android:id="@+id/etOtp4"
+                        style="@style/OtpBox" />
+
+                    <EditText
+                        android:id="@+id/etOtp5"
+                        style="@style/OtpBox" />
+
+                    <EditText
+                        android:id="@+id/etOtp6"
+                        style="@style/OtpBox" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvOtpError"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/incorrect_otp"
+                    android:textColor="@color/bt"
+                    android:textSize="@dimen/font_12"
+                    android:visibility="gone" />
+
+                <!-- Resend OTP -->
+
+                <TextView
+                    android:id="@+id/tvResendOtp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="5dp"
+                    android:text="@string/resend_otp_in_03_00"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/font_14"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+        <!-- Next Button -->
+        <TextView
+            android:id="@+id/btnNext"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_medium"
+            android:background="@drawable/bt_submit_button_background"
+            android:gravity="center"
+            android:padding="@dimen/space_medium"
+            android:text="@string/submit"
+            android:textSize="@dimen/font_14"
+            android:textColor="@color/white"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

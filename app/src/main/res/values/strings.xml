@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">Woliba</string>
+    <string name="next">Next</string>
+    <string name="login_credentials">Login Credentials</string>
+    <string name="woliba_logo">Woliba Logo</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="email_address">Work Email</string>
+    <string name="password">Password</string>
+    <string name="we_ve_sent_a_6_digit_otp">We’ve sent a 6-digit OTP to your work email\nPlease enter it below to continue.</string>
+    <string name="input_verification_code">Input verification code</string>
+    <string name="incorrect_otp">Incorrect OTP</string>
+    <string name="resend_otp_in_03_00">Resend OTP</string>
+    <string name="submit">Submit</string>
+    <string name="complete_your_profile">Complete Your Profile</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="work_anniversary_optional">Work Anniversary (optional)</string>
+    <string name="work_anniversary">Work Anniversary</string>
+    <string name="invalid_email_format">Invalid email format</string>
+    <string name="password_must_be_8_characters_include_1_uppercase_1_number"><![CDATA[Password must be 8+ characters, include 1 uppercase & 1 number]]></string>
+    <string name="no_internet_connection">No Internet Connection</string>
+    <string name="first_name_are_required">First Name are required</string>
+    <string name="last_name_are_required">Last Name are required</string>
+    <string name="phone_number_are_required">Phone Number are required</string>
+    <string name="dob_are_requiredd">DOB are required</string>
+</resources>

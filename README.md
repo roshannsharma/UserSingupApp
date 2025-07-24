@@ -6,10 +6,11 @@ A multi-step user registration Android application built with Java, ViewModel ar
 
 ## App Overview
 
-The **User Signup App** provides a clean, multi-stage onboarding process:
+The **User Registration App** provides a clean, multi-stage onboarding process:
 1. **Email & Password Signup** – User registers with email and password.
 2. **OTP Verification** – Verifies user identity via OTP.
-3. **Complete Profile** – User fills personal details and uploads a profile picture.
+3. **Complete Profile** – User fills personal details.
+4. **DashBoard** - When fills all details then open Dashboard.
 
 
 ---
@@ -26,8 +27,8 @@ The **User Signup App** provides a clean, multi-stage onboarding process:
 ###  Profile Completion  
 ![Profile Screen](screenshots/profile_completion.png)
 
-###  Interest Selection  
-![Interest Screen](screenshots/interest_selection.png)
+###  DashBoard   
+![DashBoard Screen](screenshots/dashboard.png)
 
 ---
 ### Libraries & Tools Used

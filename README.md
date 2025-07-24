@@ -1,6 +1,6 @@
 #  User Registration
 
-A multi-step user registration Android application built with Java, ViewModel architecture, and Retrofit. The app walks users through email signup, OTP verification, profile completion.
+A multi-step user registration Android application built with Java, MVVM architecture, and Retrofit. The app walks users through email signup, OTP verification, profile completion.
 
 ---
 

@@ -37,7 +37,6 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         setContentView(binding.getRoot());
         if (getIntent() != null) {
             String screenMode = getIntent().getStringExtra("SCREEN_MODE");
-            assert screenMode != null;
             if (screenMode.equals("2")) {
                 apiCallingOTPResend(PreferenceManger.getUSerEmail());
             }

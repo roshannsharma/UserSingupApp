@@ -6,4 +6,5 @@
     <color name="grey_color">#D6DDE3</color>
     <color name="grey_color_date">#646363</color>
     <color name="text_color">#12394E </color>
+    <color name="disble_bg">#EFEFEF</color>
 </resources>

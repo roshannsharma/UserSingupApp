@@ -15,11 +15,11 @@
 
         <ImageView
             android:id="@+id/logoImageView"
-            android:layout_width="120dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:contentDescription="@string/woliba_logo"
-            android:src="@drawable/wolibaa"
+            android:src="@drawable/woliba_logo"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

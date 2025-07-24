@@ -86,17 +86,15 @@ public class UserProfileUpdateActivity extends AppCompatActivity implements View
 
         mBinding.etPhone.addTextChangedListener(formWatcher);
         mBinding.etDOB.addTextChangedListener(formWatcher);
-
     }
 
     private void checkOtpExpiry() {
         long verifiedTime = PreferenceManger.getOTPVerifyTime();
         long currentTime = System.currentTimeMillis();
-
-        if (currentTime - verifiedTime > OTP_EXPIRY_LIMIT) {
-            // OTP expired
-            PreferenceManger.setOTPVerfiyTime(0); // clear old timestamp
-            showOtpExpiredDialog(); // alert user and redirect
+        // Check if OTP was never verified or already expired
+        if (verifiedTime == 0L || (currentTime - verifiedTime > OTP_EXPIRY_LIMIT)) {
+            PreferenceManger.setOTPVerfiyTime(0L); // reset
+            showOtpExpiredDialog(); // redirect to OTP screen
         }
     }
 
@@ -214,9 +212,6 @@ public class UserProfileUpdateActivity extends AppCompatActivity implements View
         viewModel.getUserRegistrationResponse().observe(this, response -> {
             loaderDialog.hide();
             if (response.isStatus().equals("success")) {
-                String userName = response.getData().getUser().getUser_name();
-                Log.d("API", "userName: " + userName);
-                Toast.makeText(this, userName, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(this, DashBoardActivity.class);
                 startActivity(intent);
             } else {

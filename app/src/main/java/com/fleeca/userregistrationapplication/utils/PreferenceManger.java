@@ -27,7 +27,7 @@ public class PreferenceManger {
     }
 
     public static long getOTPVerifyTime() {
-        return PreferenceUtil.getPreference(PreferenceConstant.OTP_VERIFIED_TIME, 0);
+        return PreferenceUtil.getPreference(PreferenceConstant.OTP_VERIFIED_TIME, 0L);
     }
 
     public static void setUserEmail(String email) {

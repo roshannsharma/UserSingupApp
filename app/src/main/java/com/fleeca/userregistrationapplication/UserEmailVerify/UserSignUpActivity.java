@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -107,8 +106,6 @@ public class UserSignUpActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
-
-
     private void apiCallingIsEmailVerify(String email) {
         ShowCustomLoader loaderDialog = new ShowCustomLoader(this);
         loaderDialog.show();
@@ -148,7 +145,6 @@ public class UserSignUpActivity extends AppCompatActivity implements View.OnClic
         viewModel.getSendOtpResponse().observe(this, response -> {
             loaderDialog.hide();
             if (response.isStatus().equals("success")) {
-
                 String optMsg = response.getData().getMessage();
                 Log.d("API", "optMsg: " + optMsg);
                 Toast.makeText(this, optMsg, Toast.LENGTH_SHORT).show();
@@ -158,6 +154,7 @@ public class UserSignUpActivity extends AppCompatActivity implements View.OnClic
                 PreferenceManger.setUserEmail(mBinding.etEmailAddress.getText().toString().trim());
 
                 Intent intent = new Intent(this, OTPActivity.class);
+                intent.putExtra("SCREEN_MODE", "1");
                 startActivity(intent);
             } else {
                 Toast.makeText(this, response.getMessage(), Toast.LENGTH_SHORT).show();

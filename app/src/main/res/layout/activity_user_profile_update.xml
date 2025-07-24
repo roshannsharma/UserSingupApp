@@ -15,8 +15,8 @@
 
         <ImageView
             android:id="@+id/logoImageView"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:contentDescription="@string/woliba_logo"
             android:src="@drawable/wolibaa"
@@ -26,12 +26,11 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/cardProfileForm"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="@dimen/space_small"
-            android:layout_marginBottom="@dimen/space_xx_large"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_xx_large"
             app:cardCornerRadius="5dp"
             app:cardElevation="6dp"
-            app:layout_constraintBottom_toTopOf="@id/btnNext"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/logoImageView">
@@ -83,7 +82,7 @@
                         android:layout_marginTop="@dimen/space_micro"
                         android:background="@drawable/input_border"
                         android:hint="@string/first_name"
-                        android:inputType="textPersonName"
+                        android:inputType="textCapWords"
                         android:padding="@dimen/space_medium"
                         android:textColor="@color/text_color"
                         android:textColorHint="@color/grey_color"
@@ -113,7 +112,7 @@
                         android:layout_marginTop="@dimen/space_micro"
                         android:background="@drawable/input_border"
                         android:hint="@string/last_name"
-                        android:inputType="textPersonName"
+                        android:inputType="textCapWords"
                         android:padding="@dimen/space_medium"
                         android:textColor="@color/text_color"
                         android:textColorHint="@color/grey_color"
@@ -144,6 +143,7 @@
                         android:background="@drawable/input_border"
                         android:hint="@string/phone_number"
                         android:inputType="phone"
+                        android:maxLength="10"
                         android:padding="@dimen/space_medium"
                         android:textColor="@color/text_color"
                         android:textColorHint="@color/grey_color"

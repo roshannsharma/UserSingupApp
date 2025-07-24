@@ -16,20 +16,19 @@
         <ImageView
             android:id="@+id/logoImageView"
             android:layout_width="120dp"
-            android:layout_marginTop="@dimen/space_small"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_small"
             android:contentDescription="@string/woliba_logo"
-            android:src="@drawable/wolibaa"
+            android:src="@drawable/woliba_logo"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- FrameLayout -->
         <androidx.cardview.widget.CardView
             android:id="@+id/cardProfileForm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="5dp"
             android:layout_marginTop="@dimen/space_xx_large"
+            app:cardCornerRadius="5dp"
             app:cardElevation="6dp"
             app:cardMaxElevation="10dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -108,7 +107,7 @@
                     android:layout_marginTop="@dimen/space_small"
                     android:background="@drawable/input_border"
                     android:hint="@string/password"
-                    android:inputType="textPassword"
+                    android:inputType="text"
                     android:padding="@dimen/space_medium" />
 
                 <TextView
@@ -137,8 +136,8 @@
             android:gravity="center"
             android:padding="@dimen/space_medium"
             android:text="@string/next"
-            android:textSize="@dimen/font_14"
             android:textColor="@android:color/white"
+            android:textSize="@dimen/font_14"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

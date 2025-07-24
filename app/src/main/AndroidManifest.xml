@@ -11,11 +11,11 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:hardwareAccelerated="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/woliba_logo"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_security_config"
         android:requestLegacyExternalStorage="true"
-        android:roundIcon="@drawable/wolibaa"
+        android:roundIcon="@drawable/woliba_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.UserRegistrationApplication"
         tools:targetApi="31">

@@ -18,4 +18,10 @@
         <item name="android:background">@drawable/otp_input_box</item>
         <item name="android:layout_margin">4dp</item>
     </style>
+
+
+    <style name="bt_submit">
+        <item name="android:textSize">@dimen/font_16</item>
+        <item name="android:background">@drawable/bt_submit_button_background</item>
+    </style>
 </resources>

@@ -1,0 +1,41 @@
+#  User Registration
+
+A multi-step user registration Android application built with Java, ViewModel architecture, and Retrofit. The app walks users through email signup, OTP verification, profile completion.
+
+---
+
+## App Overview
+
+The **User Signup App** provides a clean, multi-stage onboarding process:
+1. **Email & Password Signup** – User registers with email and password.
+2. **OTP Verification** – Verifies user identity via OTP.
+3. **Complete Profile** – User fills personal details and uploads a profile picture.
+
+
+---
+
+## Screenshots
+
+
+###  Email Signup  
+![Email Signup Screen](screenshots/email_signup.png)
+
+###  OTP Verification  
+![OTP Verification Screen](screenshots/otp_verification.png)
+
+###  Profile Completion  
+![Profile Screen](screenshots/profile_completion.png)
+
+###  Interest Selection  
+![Interest Screen](screenshots/interest_selection.png)
+
+---
+### Libraries & Tools Used
+--Android SDK, Java, MVVM, Retrofit
+
+##  Setup Instructions
+
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/roshannsharma/UserSingupApp.git
+   cd UserSingupApp

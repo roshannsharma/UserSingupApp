@@ -139,15 +139,10 @@
         <!-- Next Button -->
         <TextView
             android:id="@+id/btnNext"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_medium"
+            style="@style/bt_submit"
             android:background="@drawable/bt_submit_button_background"
             android:gravity="center"
-            android:padding="@dimen/space_medium"
             android:text="@string/submit"
-            android:textSize="@dimen/font_14"
-            android:textColor="@color/white"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

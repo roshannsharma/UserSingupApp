@@ -3,7 +3,6 @@
     <string name="next">Next</string>
     <string name="login_credentials">Login Credentials</string>
     <string name="woliba_logo">Woliba Logo</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="email_address">Work Email</string>
     <string name="password">Password</string>

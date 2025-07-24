@@ -35,15 +35,18 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         binding = ActivityOtpactivityBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        if (getIntent() != null) {
-            String screenMode = getIntent().getStringExtra("SCREEN_MODE");
-            if (screenMode.equals("2")) {
-                apiCallingOTPResend(PreferenceManger.getUSerEmail());
-            }
-        }
         uiBind();
         initOtpInputs();
         startResendCountdown();
+
+        Log.d("USER_EMIAL", PreferenceManger.getUSerEmail());
+        if (getIntent() != null) {
+            String screenMode = getIntent().getStringExtra("SCREEN_MODE");
+            if (screenMode.equals("2")) {
+                Log.d("USER_EMIAL", PreferenceManger.getUSerEmail());
+                apiCallingOTPResend(PreferenceManger.getUSerEmail());
+            }
+        }
     }
 
     private void uiBind() {
@@ -171,7 +174,10 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
             }
         }
         if (view.getId() == R.id.tvResendOtp) {
+
             apiCallingOTPResend(PreferenceManger.getUSerEmail().toString());
+            startResendCountdown();
+
         }
     }
 
@@ -187,6 +193,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
                 if (countDownTimer != null) {
                     countDownTimer.cancel();
                 }
+                PreferenceManger.setOTPVerfiyTime(0L);
                 PreferenceManger.setOTPVerfiyTime(System.currentTimeMillis());
 
                 Toast.makeText(this, optMsg, Toast.LENGTH_SHORT).show();

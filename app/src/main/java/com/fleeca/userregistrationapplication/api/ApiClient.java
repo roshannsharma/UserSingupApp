@@ -1,5 +1,8 @@
 package com.fleeca.userregistrationapplication.api;
 
+
+import static com.fleeca.userregistrationapplication.utils.ApiConstant.BASE_URL;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -14,10 +17,9 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
-    private static final String BASE_URL = "https://staging.api.gcp.woliba.io/v1/";
     private static Retrofit retrofit;
 
-    public static ApiService getApiService( String mToken) {
+    public static ApiService getApiService(String mToken) {
         // Interceptor to add headers
 
         Interceptor headerInterceptor = chain -> {
@@ -53,11 +55,11 @@ public class ApiClient {
                 .create();
 
         // Retrofit instance
-         retrofit = new Retrofit.Builder()
+        retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                 .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .build();
 
         // Api Interface creation

@@ -1,8 +1,9 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.UserRegistrationApplication" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+         <item name="colorPrimary">@color/text_color</item>
+        <item name="android:statusBarColor">@color/text_color</item>
     </style>
 
     <style name="Theme.UserRegistrationApplication" parent="Base.Theme.UserRegistrationApplication" />
@@ -21,7 +22,11 @@
 
 
     <style name="bt_submit">
-        <item name="android:textSize">@dimen/font_16</item>
         <item name="android:background">@drawable/bt_submit_button_background</item>
+        <item name="android:padding">@dimen/space_medium</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/font_14</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 </resources>

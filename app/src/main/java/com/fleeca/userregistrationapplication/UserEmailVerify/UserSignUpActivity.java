@@ -69,14 +69,6 @@ public class UserSignUpActivity extends AppCompatActivity implements View.OnClic
     }
 
     public void handleSignup() {
-      /*  if (TextUtils.isEmpty(mBinding.etEmailAddress.getText().toString().trim())) {
-            mBinding.emailError.setText("Email are required");
-            return;
-        }
-        if (TextUtils.isEmpty(mBinding.etPassword.getText().toString().trim())) {
-            mBinding.passwordError.setText("Password are required");
-            return;
-        }*/
         String email = mBinding.etEmailAddress.getText().toString().trim();
         String password = mBinding.etPassword.getText().toString().trim();
 
@@ -116,11 +108,11 @@ public class UserSignUpActivity extends AppCompatActivity implements View.OnClic
                 boolean isVerified = response.getData().isVerified();
                 Log.d("API", "is_verified: " + isVerified);
                 if (isVerified) {
-                    // proceed to next step
                     Drawable verifiedIcon = ContextCompat.getDrawable(this, R.drawable.ic_verified);
                     mBinding.etEmailAddress.setCompoundDrawablesWithIntrinsicBounds(null, null, verifiedIcon, null);
                     Toast.makeText(this, "Email Verified", Toast.LENGTH_SHORT).show();
 
+                    PreferenceManger.setUserEmail(mBinding.etEmailAddress.getText().toString().trim());
                     if (ValidationUtil.isNetworkAvailable()) {
                         apiCallingOTPSend(email);
                     } else {
@@ -160,5 +152,11 @@ public class UserSignUpActivity extends AppCompatActivity implements View.OnClic
                 Toast.makeText(this, response.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mBinding = null;
     }
 }

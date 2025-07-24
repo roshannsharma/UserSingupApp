@@ -7,7 +7,6 @@ import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -27,12 +26,13 @@ import com.fleeca.userregistrationapplication.utils.ValidationUtil;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class UserProfileUpdateActivity extends AppCompatActivity implements View.OnClickListener {
     private ActivityUserProfileUpdateBinding mBinding;
     private UserRegistrationViewModel viewModel;
     private String dobForApi;
-    private final long OTP_EXPIRY_LIMIT = 10 * 60 * 1000; // 10 minutes
+    private final static long OTP_EXPIRY_LIMIT = 10 * 60 * 1000; // 10 minutes
     private CountDownTimer countDownTimer;
 
     @Override
@@ -40,25 +40,23 @@ public class UserProfileUpdateActivity extends AppCompatActivity implements View
         super.onCreate(savedInstanceState);
         mBinding = ActivityUserProfileUpdateBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
-        checkOtpExpiry();
+        startResendCountdown();
         uiBind();
     }
 
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mBinding = null;
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
-        checkOtpExpiry();
+        startResendCountdown();
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (countDownTimer != null) countDownTimer.cancel();
     }
 
     private void uiBind() {
-
         mBinding.btnNext.setOnClickListener(this);
         mBinding.etDOB.setOnClickListener(this);
         viewModel = new ViewModelProvider(this).get(UserRegistrationViewModel.class);
@@ -109,6 +107,33 @@ public class UserProfileUpdateActivity extends AppCompatActivity implements View
                     startActivity(intent);
                     finish();
                 }).show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (countDownTimer != null) countDownTimer.cancel();
+        mBinding = null;
+    }
+    private void startResendCountdown() {
+        long verifiedTime = PreferenceManger.getOTPVerifyTime();
+        long currentTime = System.currentTimeMillis();
+        long timePassed = currentTime - verifiedTime;
+        long remainingTime = OTP_EXPIRY_LIMIT - timePassed;
+
+        if (remainingTime <= 0) {
+            checkOtpExpiry(); // already expired
+            return;
+        }
+
+        countDownTimer = new CountDownTimer(remainingTime, 1000) {
+            public void onTick(long millisUntilFinished) {
+            }
+
+            public void onFinish() {
+                checkOtpExpiry();
+            }
+        }.start();
     }
 
 
@@ -212,8 +237,10 @@ public class UserProfileUpdateActivity extends AppCompatActivity implements View
         viewModel.getUserRegistrationResponse().observe(this, response -> {
             loaderDialog.hide();
             if (response.isStatus().equals("success")) {
+                PreferenceManger.setIsPRofileDone("1");
                 Intent intent = new Intent(this, DashBoardActivity.class);
                 startActivity(intent);
+                finish();
             } else {
                 Toast.makeText(this, response.getMessage(), Toast.LENGTH_SHORT).show();
             }

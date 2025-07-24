@@ -23,7 +23,7 @@ public class ValidationUtil {
     }
 
     public static boolean isValidPassword(String password) {
-        String pattern = "^(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d]{8,}$";
+        String pattern = "^(?=.*[A-Z])(?=.*\\d).{8,}$";
         return password != null && password.matches(pattern);
     }
     public static boolean isNetworkAvailable() {

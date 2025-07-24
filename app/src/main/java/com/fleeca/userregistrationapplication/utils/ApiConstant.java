@@ -1,6 +1,7 @@
 package com.fleeca.userregistrationapplication.utils;
 
 public class ApiConstant {
+    public static final String BASE_URL = "https://staging.api.gcp.woliba.io/v1/";
 
     public static final String USER_DETAILS_BY_TOKAN = "get-user-details-by-token";
     public static final String USER_EMAIL_VERIFY = "verify-user-email";

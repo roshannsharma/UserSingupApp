@@ -2,6 +2,14 @@ package com.fleeca.userregistrationapplication.utils;
 
 public class PreferenceManger {
 
+    public static String getIsPRofileDone() {
+        return PreferenceUtil.getPreference(PreferenceConstant.TOKEN, "0");
+    }
+
+    public static void setIsPRofileDone(String isValue) {
+        PreferenceUtil.setPreference(PreferenceConstant.TOKEN, isValue);
+    }
+
     public static String getToken() {
         return PreferenceUtil.getPreference(PreferenceConstant.TOKEN, "");
     }

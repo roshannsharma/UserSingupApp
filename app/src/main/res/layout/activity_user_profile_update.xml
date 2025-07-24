@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/background"
-        android:padding="12dp">
+        android:padding="24dp">
 
         <ImageView
             android:id="@+id/logoImageView"
@@ -254,15 +254,10 @@
         <!-- Next Button -->
         <TextView
             android:id="@+id/btnNext"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_xx_large"
+            style="@style/bt_submit"
             android:background="@drawable/bt_submit_button_background"
             android:gravity="center"
-            android:padding="@dimen/space_medium"
             android:text="@string/submit"
-            android:textColor="@color/white"
-            android:textSize="@dimen/font_14"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -8,11 +8,11 @@ import android.widget.VideoView;
 
 import com.fleeca.userregistrationapplication.R;
 
-public class ShowCustomLoader {
+public class CustomProgressBar {
 
         private Dialog dialog;
 
-    public ShowCustomLoader(Context context) {
+    public CustomProgressBar(Context context) {
         dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.custom_progress_dialog);

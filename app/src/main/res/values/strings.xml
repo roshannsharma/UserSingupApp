@@ -24,4 +24,6 @@
     <string name="last_name_are_required">Last Name are required</string>
     <string name="phone_number_are_required">Phone Number are required</string>
     <string name="dob_are_requiredd">DOB are required</string>
+    <string name="session_expired">Session Expired</string>
+    <string name="otp_expired_please_verify_again">OTP expired! Please verify again.</string>
 </resources>

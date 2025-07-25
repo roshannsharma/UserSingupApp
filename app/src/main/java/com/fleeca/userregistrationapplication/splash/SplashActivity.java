@@ -9,9 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.fleeca.userregistrationapplication.DashBoard.DashBoardActivity;
 import com.fleeca.userregistrationapplication.R;
 import com.fleeca.userregistrationapplication.UserEmailVerify.UserSignUpActivity;
-import com.fleeca.userregistrationapplication.userOTP.OTPActivity;
 import com.fleeca.userregistrationapplication.utils.PreferenceManger;
-import com.fleeca.userregistrationapplication.utils.ShowCustomLoader;
+import com.fleeca.userregistrationapplication.utils.CustomProgressBar;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -19,7 +18,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        ShowCustomLoader loaderDialog = new ShowCustomLoader(this);
+        CustomProgressBar loaderDialog = new CustomProgressBar(this);
         loaderDialog.show();
 
         goToNextScreen();

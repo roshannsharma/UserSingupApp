@@ -32,6 +32,7 @@ public interface ApiService {
 
     @POST(USER_REGISTRATION)
     Single<UserRegistrationResponse> registerUser(@Body UserRegistrationRequest request);
+
     @POST(USER_DETAILS_BY_TOKAN)
     Single<GetUserDetailsByTokenResponse> getUserDetailByTokan(@Body UserDetailsByTokanRequest request);
 }

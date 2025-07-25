@@ -14,6 +14,9 @@ public class UserEmailVerfiyViewModel extends ViewModel {
 
     private final MutableLiveData<GetUserDetailsByTokenResponse> getUserDetailsByTokenResponse = new MutableLiveData<>();
 
+
+
+
     public UserEmailVerfiyViewModel() {
         userEmailVerifyRepository = new UserEmailVerifyRepository();
     }
@@ -43,6 +46,7 @@ public class UserEmailVerfiyViewModel extends ViewModel {
     public LiveData<SendOtpResponse> getSendOtpResponse() {
         return sendOtpResponse;
     }
+
     public LiveData<GetUserDetailsByTokenResponse> getUserDetailsByTokenResponsee() {
         return getUserDetailsByTokenResponse;
     }

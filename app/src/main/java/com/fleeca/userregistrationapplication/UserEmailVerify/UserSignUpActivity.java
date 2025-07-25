@@ -16,8 +16,8 @@ import androidx.lifecycle.ViewModelProvider;
 import com.fleeca.userregistrationapplication.R;
 import com.fleeca.userregistrationapplication.databinding.ActivityMainBinding;
 import com.fleeca.userregistrationapplication.userOTP.OTPActivity;
+import com.fleeca.userregistrationapplication.utils.CustomProgressBar;
 import com.fleeca.userregistrationapplication.utils.PreferenceManger;
-import com.fleeca.userregistrationapplication.utils.ShowCustomLoader;
 import com.fleeca.userregistrationapplication.utils.ValidationUtil;
 
 public class UserSignUpActivity extends AppCompatActivity implements View.OnClickListener {
@@ -68,7 +68,7 @@ public class UserSignUpActivity extends AppCompatActivity implements View.OnClic
                 R.drawable.bt_submit_button_disabled);
     }
 
-    public void handleSignup() {
+    public void doSignupValidation() {
         String email = mBinding.etEmailAddress.getText().toString().trim();
         String password = mBinding.etPassword.getText().toString().trim();
 
@@ -94,25 +94,25 @@ public class UserSignUpActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.btnNext) {
-            handleSignup();
+            doSignupValidation();
         }
     }
 
     private void apiCallingIsEmailVerify(String email) {
-        ShowCustomLoader loaderDialog = new ShowCustomLoader(this);
+        CustomProgressBar loaderDialog = new CustomProgressBar(this);
         loaderDialog.show();
         viewModel.verifyEmail(email);
+
         viewModel.getVerifyEmailResponse().observe(this, response -> {
             loaderDialog.hide();
             if (response.isStatus().equals("success")) {
                 boolean isVerified = response.getData().isVerified();
                 Log.d("API", "is_verified: " + isVerified);
                 if (isVerified) {
-                    Drawable verifiedIcon = ContextCompat.getDrawable(this, R.drawable.ic_verified);
-                    mBinding.etEmailAddress.setCompoundDrawablesWithIntrinsicBounds(null, null, verifiedIcon, null);
+                    setEmailVerfityIcon(true);
                     Toast.makeText(this, "Email Verified", Toast.LENGTH_SHORT).show();
-
                     PreferenceManger.setUserEmail(mBinding.etEmailAddress.getText().toString().trim());
+
                     if (ValidationUtil.isNetworkAvailable()) {
                         apiCallingOTPSend(email);
                     } else {
@@ -120,8 +120,9 @@ public class UserSignUpActivity extends AppCompatActivity implements View.OnClic
                     }
                 } else {
                     // show email not verified message
+                    setEmailVerfityIcon(false);
                     Toast.makeText(this, "Email not Verified", Toast.LENGTH_SHORT).show();
-                    mBinding.etEmailAddress.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+
 
                 }
             } else {
@@ -131,7 +132,7 @@ public class UserSignUpActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void apiCallingOTPSend(String email) {
-        ShowCustomLoader loaderDialog = new ShowCustomLoader(this);
+        CustomProgressBar loaderDialog = new CustomProgressBar(this);
         loaderDialog.show();
         viewModel.sendOTP(email);
         viewModel.getSendOtpResponse().observe(this, response -> {
@@ -158,5 +159,14 @@ public class UserSignUpActivity extends AppCompatActivity implements View.OnClic
     protected void onDestroy() {
         super.onDestroy();
         mBinding = null;
+    }
+
+    private void setEmailVerfityIcon(boolean value) {
+        if (value) {
+            Drawable verifiedIcon = ContextCompat.getDrawable(this, R.drawable.ic_verified);
+            mBinding.etEmailAddress.setCompoundDrawablesWithIntrinsicBounds(null, null, verifiedIcon, null);
+        } else {
+            mBinding.etEmailAddress.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+        }
     }
 }

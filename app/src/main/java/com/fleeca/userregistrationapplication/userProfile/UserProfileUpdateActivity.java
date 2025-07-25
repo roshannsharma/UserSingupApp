@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
@@ -20,13 +19,12 @@ import com.fleeca.userregistrationapplication.R;
 import com.fleeca.userregistrationapplication.databinding.ActivityUserProfileUpdateBinding;
 import com.fleeca.userregistrationapplication.userOTP.OTPActivity;
 import com.fleeca.userregistrationapplication.utils.PreferenceManger;
-import com.fleeca.userregistrationapplication.utils.ShowCustomLoader;
+import com.fleeca.userregistrationapplication.utils.CustomProgressBar;
 import com.fleeca.userregistrationapplication.utils.ValidationUtil;
 
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 public class UserProfileUpdateActivity extends AppCompatActivity implements View.OnClickListener {
     private ActivityUserProfileUpdateBinding mBinding;
@@ -92,14 +90,14 @@ public class UserProfileUpdateActivity extends AppCompatActivity implements View
         // Check if OTP was never verified or already expired
         if (verifiedTime == 0L || (currentTime - verifiedTime > OTP_EXPIRY_LIMIT)) {
             PreferenceManger.setOTPVerfiyTime(0L); // reset
-            showOtpExpiredDialog(); // redirect to OTP screen
+            showSessionExpiredialog(); // redirect to OTP screen
         }
     }
 
-    private void showOtpExpiredDialog() {
+    private void showSessionExpiredialog() {
         new AlertDialog.Builder(this)
-                .setTitle("Session Expired")
-                .setMessage("OTP expired! Please verify again.")
+                .setTitle(R.string.session_expired)
+                .setMessage(R.string.otp_expired_please_verify_again)
                 .setCancelable(false)
                 .setPositiveButton("OK", (dialog, which) -> {
                     Intent intent = new Intent(this, OTPActivity.class);
@@ -122,7 +120,7 @@ public class UserProfileUpdateActivity extends AppCompatActivity implements View
         long remainingTime = OTP_EXPIRY_LIMIT - timePassed;
 
         if (remainingTime <= 0) {
-            checkOtpExpiry(); // already expired
+            checkOtpExpiry();
             return;
         }
 
@@ -165,7 +163,7 @@ public class UserProfileUpdateActivity extends AppCompatActivity implements View
 
     private void doValidation() {
 
-        if (TextUtils.isEmpty(mBinding.etfirstName.getText().toString().trim())) {
+      /*  if (TextUtils.isEmpty(mBinding.etfirstName.getText().toString().trim())) {
             mBinding.firstNameError.setText(R.string.first_name_are_required);
             return;
         }
@@ -180,7 +178,7 @@ public class UserProfileUpdateActivity extends AppCompatActivity implements View
         if (TextUtils.isEmpty(mBinding.etDOB.getText().toString().trim())) {
             mBinding.DOBError.setText(R.string.dob_are_requiredd);
             return;
-        }
+        }*/
 
         String gender = "Male";
         Integer languageId = 1;
@@ -231,7 +229,7 @@ public class UserProfileUpdateActivity extends AppCompatActivity implements View
     }
 
     private void apiCallingUserRegistraionSave(UserRegistrationRequest userRegistrationRequest) {
-        ShowCustomLoader loaderDialog = new ShowCustomLoader(this);
+        CustomProgressBar loaderDialog = new CustomProgressBar(this);
         loaderDialog.show();
         viewModel.registerUser(userRegistrationRequest);
         viewModel.getUserRegistrationResponse().observe(this, response -> {
@@ -262,7 +260,6 @@ public class UserProfileUpdateActivity extends AppCompatActivity implements View
 
                 }, year, month, day);
         datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
-        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis()); // restrict to past
         datePickerDialog.show();
     }
 }

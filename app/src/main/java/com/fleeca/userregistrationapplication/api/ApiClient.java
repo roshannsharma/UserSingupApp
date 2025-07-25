@@ -41,7 +41,7 @@ public class ApiClient {
 
         // OkHttpClient with timeouts and interceptors
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .callTimeout(10, TimeUnit.MINUTES)
+                .callTimeout(2, TimeUnit.MINUTES)
                 .connectTimeout(90, TimeUnit.SECONDS)
                 .readTimeout(90, TimeUnit.SECONDS)
                 .writeTimeout(90, TimeUnit.SECONDS)

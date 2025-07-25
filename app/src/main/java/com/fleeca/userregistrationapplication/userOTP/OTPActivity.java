@@ -18,7 +18,7 @@ import com.fleeca.userregistrationapplication.UserEmailVerify.UserEmailVerfiyVie
 import com.fleeca.userregistrationapplication.databinding.ActivityOtpactivityBinding;
 import com.fleeca.userregistrationapplication.userProfile.UserProfileUpdateActivity;
 import com.fleeca.userregistrationapplication.utils.PreferenceManger;
-import com.fleeca.userregistrationapplication.utils.ShowCustomLoader;
+import com.fleeca.userregistrationapplication.utils.CustomProgressBar;
 import com.fleeca.userregistrationapplication.utils.ValidationUtil;
 
 import java.util.Locale;
@@ -182,7 +182,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
     }
 
     private void apiCallingOTPVerify(String otp, String tokan) {
-        ShowCustomLoader loaderDialog = new ShowCustomLoader(this);
+        CustomProgressBar loaderDialog = new CustomProgressBar(this);
         loaderDialog.show();
         viewModel.verifyOTP(otp, tokan);
         viewModel.getVerifyOTPResponse().observe(this, response -> {
@@ -207,7 +207,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
     }
 
     private void apiCallingOTPResend(String email) {
-        ShowCustomLoader loaderDialog = new ShowCustomLoader(this);
+        CustomProgressBar loaderDialog = new CustomProgressBar(this);
         loaderDialog.show();
         userEmailVerfiyViewModel.sendOTP(email);
         userEmailVerfiyViewModel.getSendOtpResponse().observe(this, response -> {

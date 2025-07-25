@@ -3,10 +3,10 @@ package com.fleeca.userregistrationapplication.api;
 import static com.fleeca.userregistrationapplication.utils.ApiConstant.USER_DETAILS_BY_TOKAN;
 import static com.fleeca.userregistrationapplication.utils.ApiConstant.USER_REGISTRATION;
 
-import com.fleeca.userregistrationapplication.UserEmailVerify.GetUserDetailsByTokenResponse;
-import com.fleeca.userregistrationapplication.UserEmailVerify.UserDetailsByTokanRequest;
-import com.fleeca.userregistrationapplication.UserEmailVerify.VerifyEmailRequest;
-import com.fleeca.userregistrationapplication.UserEmailVerify.VerifyEmailResponse;
+import com.fleeca.userregistrationapplication.userEmailVerify.GetUserDetailsByTokenResponse;
+import com.fleeca.userregistrationapplication.userEmailVerify.UserDetailsByTokanRequest;
+import com.fleeca.userregistrationapplication.userEmailVerify.VerifyEmailRequest;
+import com.fleeca.userregistrationapplication.userEmailVerify.VerifyEmailResponse;
 import com.fleeca.userregistrationapplication.userOTP.SendOtpRequest;
 import com.fleeca.userregistrationapplication.userOTP.SendOtpResponse;
 import com.fleeca.userregistrationapplication.userOTP.VerifyOtpRequest;

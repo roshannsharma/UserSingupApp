@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.fleeca.userregistrationapplication.DashBoard.DashBoardActivity;
 import com.fleeca.userregistrationapplication.R;
-import com.fleeca.userregistrationapplication.UserEmailVerify.UserSignUpActivity;
+import com.fleeca.userregistrationapplication.userEmailVerify.UserSignUpActivity;
 import com.fleeca.userregistrationapplication.utils.PreferenceManger;
 import com.fleeca.userregistrationapplication.utils.CustomProgressBar;
 

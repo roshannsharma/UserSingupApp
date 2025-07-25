@@ -1,4 +1,4 @@
-package com.fleeca.userregistrationapplication.UserEmailVerify;
+package com.fleeca.userregistrationapplication.userEmailVerify;
 
 public class VerifyEmailRequest {
     private String email;

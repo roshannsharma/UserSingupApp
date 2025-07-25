@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <data>
-
+        <variable
+            name="viewModel"
+            type="com.fleeca.userregistrationapplication.userEmailVerify.UserEmailVerfiyViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/login_credential_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/background"
+        style="@style/app_background"
         android:padding="24dp">
 
         <ImageView
             android:id="@+id/logoImageView"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
+            style="@style/logo_iv"
             android:layout_marginTop="@dimen/space_small"
-            android:contentDescription="@string/woliba_logo"
-            android:src="@drawable/woliba_logo"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -43,14 +41,9 @@
                 android:padding="16dp">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/space_medium"
-                    android:text="@string/login_credentials"
-                    android:textAlignment="center"
-                    android:textColor="@color/text_color"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    style="@style/tiitle_text"
+                    android:layout_marginBottom="@dimen/space_medium"
+                    android:text="@string/login_credentials" />
 
                 <View
                     android:layout_width="match_parent"
@@ -68,20 +61,15 @@
                     android:text="@string/email_address"
                     android:textColor="@color/text_color"
                     android:textColorHint="@color/grey_color"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/font_14" />
 
                 <EditText
                     android:id="@+id/etEmailAddress"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/edit_input"
+                    android:text="@={viewModel.email}"
                     android:layout_marginTop="@dimen/space_micro"
-                    android:background="@drawable/input_border"
                     android:hint="@string/email_address"
-                    android:inputType="textEmailAddress"
-                    android:padding="@dimen/space_medium"
-                    android:textColor="@color/text_color"
-                    android:textColorHint="@color/grey_color"
-                    android:textSize="@dimen/font_14" />
+                    android:inputType="textEmailAddress" />
 
                 <TextView
                     android:id="@+id/emailError"
@@ -97,18 +85,16 @@
                     android:layout_marginTop="@dimen/space_medium"
                     android:text="@string/password"
                     android:textColor="@color/text_color"
-                    android:textColorHint="@color/grey_color"
                     android:textSize="@dimen/font_14" />
 
                 <EditText
+
                     android:id="@+id/etPassword"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/edit_input"
                     android:layout_marginTop="@dimen/space_micro"
-                    android:background="@drawable/input_border"
                     android:hint="@string/password"
-                    android:inputType="text"
-                    android:padding="@dimen/space_medium" />
+                    android:text="@={viewModel.password}"
+                    android:inputType="text" />
 
                 <TextView
                     android:id="@+id/passwordError"
@@ -133,6 +119,7 @@
             android:background="@drawable/bt_submit_button_background"
             android:gravity="center"
             android:text="@string/next"
+            android:onClick="@{()->viewModel.clickOnBt()}"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

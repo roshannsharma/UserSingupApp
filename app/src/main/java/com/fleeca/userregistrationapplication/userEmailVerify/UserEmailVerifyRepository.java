@@ -1,4 +1,4 @@
-package com.fleeca.userregistrationapplication.UserEmailVerify;
+package com.fleeca.userregistrationapplication.userEmailVerify;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

@@ -1,10 +1,5 @@
 package com.fleeca.userregistrationapplication.utils;
 
-import com.fleeca.userregistrationapplication.UserEmailVerify.VerifyEmailResponse;
-import com.fleeca.userregistrationapplication.userOTP.SendOtpResponse;
-import com.fleeca.userregistrationapplication.userOTP.VerifyOtpResponse;
-import com.fleeca.userregistrationapplication.userProfile.UserRegistrationResponse;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 

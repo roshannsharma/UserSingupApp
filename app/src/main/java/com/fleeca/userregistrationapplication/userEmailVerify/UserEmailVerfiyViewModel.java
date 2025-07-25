@@ -1,6 +1,7 @@
-package com.fleeca.userregistrationapplication.UserEmailVerify;
+package com.fleeca.userregistrationapplication.userEmailVerify;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -14,11 +15,37 @@ public class UserEmailVerfiyViewModel extends ViewModel {
 
     private final MutableLiveData<GetUserDetailsByTokenResponse> getUserDetailsByTokenResponse = new MutableLiveData<>();
 
+    public final MutableLiveData<Boolean> btNextClick = new MutableLiveData<>(false);
 
+    public final MutableLiveData<String> email = new MutableLiveData<>("");
+    public final MutableLiveData<String> password = new MutableLiveData<>("");
 
+    public final MediatorLiveData<Boolean> isFormValid = new MediatorLiveData<>();
+
+    private void checkFormValidity() {
+        String inputEmial = email.getValue();
+        String inputPassword = password.getValue();
+
+        boolean valid = inputEmial != null && !inputEmial.trim().isEmpty()
+                && inputPassword != null && !inputPassword.trim().isEmpty();
+
+        isFormValid.setValue(valid);
+    }
 
     public UserEmailVerfiyViewModel() {
         userEmailVerifyRepository = new UserEmailVerifyRepository();
+        isFormValid.setValue(false);
+
+        isFormValid.addSource(email, e -> checkFormValidity());
+        isFormValid.addSource(password, p -> checkFormValidity());
+    }
+
+    public void clickOnBt() {
+        btNextClick.setValue(true);
+    }
+
+    public void resetClickEvent() {
+        btNextClick.setValue(false); // reset after handling
     }
 
     public void verifyEmail(String email) {
@@ -33,11 +60,6 @@ public class UserEmailVerfiyViewModel extends ViewModel {
         });
     }
 
-    public void setGetUserDetailsByToken(String tokan) {
-       /* userEmailVerifyRepository.getUserDetailsByTokan(tokan).observeForever(response -> {
-            getUserDetailsByTokenResponse.setValue(response);
-        });*/
-    }
 
     public LiveData<VerifyEmailResponse> getVerifyEmailResponse() {
         return verifyEmailResponse;
@@ -47,7 +69,4 @@ public class UserEmailVerfiyViewModel extends ViewModel {
         return sendOtpResponse;
     }
 
-    public LiveData<GetUserDetailsByTokenResponse> getUserDetailsByTokenResponsee() {
-        return getUserDetailsByTokenResponse;
-    }
 }

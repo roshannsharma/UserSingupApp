@@ -6,19 +6,21 @@ import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.fleeca.userregistrationapplication.R;
-import com.fleeca.userregistrationapplication.UserEmailVerify.UserEmailVerfiyViewModel;
 import com.fleeca.userregistrationapplication.databinding.ActivityOtpactivityBinding;
+import com.fleeca.userregistrationapplication.userEmailVerify.UserEmailVerfiyViewModel;
 import com.fleeca.userregistrationapplication.userProfile.UserProfileUpdateActivity;
-import com.fleeca.userregistrationapplication.utils.PreferenceManger;
 import com.fleeca.userregistrationapplication.utils.CustomProgressBar;
+import com.fleeca.userregistrationapplication.utils.PreferenceManger;
 import com.fleeca.userregistrationapplication.utils.ValidationUtil;
 
 import java.util.Locale;
@@ -35,8 +37,12 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         binding = ActivityOtpactivityBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        viewModel = new ViewModelProvider(this).get(OTPViewModel.class);
+        binding.setViewModel(viewModel);
+        binding.setLifecycleOwner(this);
+
         uiBind();
-        initOtpInputs();
+        setupOtpFocusListeners();
         startResendCountdown();
 
         Log.d("USER_EMIAL", PreferenceManger.getUSerEmail());
@@ -50,61 +56,51 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
     }
 
     private void uiBind() {
-        binding.btnNext.setOnClickListener(this);
-        viewModel = new ViewModelProvider(this).get(OTPViewModel.class);
         userEmailVerfiyViewModel = new ViewModelProvider(this).get(UserEmailVerfiyViewModel.class);
-
         binding.btnNext.setEnabled(false);
         binding.btnNext.setBackgroundResource(R.drawable.bt_submit_button_disabled);
+        observeClicks();
 
-        TextWatcher formWatcher = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                validateForm();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        };
-
-        binding.etOtp1.addTextChangedListener(formWatcher);
-        binding.etOtp2.addTextChangedListener(formWatcher);
-
-        binding.etOtp3.addTextChangedListener(formWatcher);
-        binding.etOtp4.addTextChangedListener(formWatcher);
-
-        binding.etOtp5.addTextChangedListener(formWatcher);
-        binding.etOtp6.addTextChangedListener(formWatcher);
     }
 
-    private void validateForm() {
-        boolean isValid = !binding.etOtp1.getText().toString().trim().isEmpty()
-                && !binding.etOtp2.getText().toString().trim().isEmpty()
-                && !binding.etOtp3.getText().toString().trim().isEmpty()
-                && !binding.etOtp4.getText().toString().trim().isEmpty()
-                && !binding.etOtp5.getText().toString().trim().isEmpty()
-                && !binding.etOtp6.getText().toString().trim().isEmpty();
+    private void observeClicks() {
+        viewModel.btNextClick.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean clicked) {
+                if (Boolean.TRUE.equals(clicked)) {
+                    String otp = viewModel.completeOtp.getValue();
+                    if (ValidationUtil.isNetworkAvailable()) {
+                        apiCallingOTPVerify(otp, PreferenceManger.getToken().toString());
+                    } else {
+                        Toast.makeText(OTPActivity.this, R.string.no_internet_connection, Toast.LENGTH_SHORT).show();
+                    }
+                    viewModel.resetClickEvent();
+                }
+            }
+        });
+        viewModel.completeOtp.observe(this, otp -> {
+            Log.d("OTP", "Current OTP: " + otp);
+        });
 
-        binding.btnNext.setEnabled(isValid);
-        binding.btnNext.setBackgroundResource(isValid ?
-                R.drawable.bt_submit_button_background :
-                R.drawable.bt_submit_button_disabled);
+
+        viewModel.isOtpValid.observe(this, isValid -> {
+            binding.btnNext.setEnabled(isValid != null && isValid);
+            binding.btnNext.setBackgroundResource(isValid != null && isValid
+                    ? R.drawable.bt_submit_button_background
+                    : R.drawable.bt_submit_button_disabled);
+        });
     }
 
-    private void initOtpInputs() {
-        EditText[] otpBoxes = new EditText[]{
+    private void setupOtpFocusListeners() {
+        EditText[] editTexts = new EditText[]{
                 binding.etOtp1, binding.etOtp2, binding.etOtp3,
                 binding.etOtp4, binding.etOtp5, binding.etOtp6
         };
 
-        for (int i = 0; i < otpBoxes.length; i++) {
-            final int current = i;
-            otpBoxes[i].addTextChangedListener(new TextWatcher() {
+        for (int i = 0; i < editTexts.length; i++) {
+            final int index = i;
+
+            editTexts[i].addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 }
@@ -115,12 +111,22 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
 
                 @Override
                 public void afterTextChanged(Editable s) {
-                    if (s.length() == 1 && current < otpBoxes.length - 1) {
-                        otpBoxes[current + 1].requestFocus();
-                    } else if (s.length() == 0 && current > 0) {
-                        otpBoxes[current - 1].requestFocus();
+                    if (s.length() == 1 && index < editTexts.length - 1) {
+                        editTexts[index + 1].requestFocus();
                     }
                 }
+            });
+
+            editTexts[i].setOnKeyListener((v, keyCode, event) -> {
+                if (event.getAction() == KeyEvent.ACTION_DOWN &&
+                        keyCode == KeyEvent.KEYCODE_DEL &&
+                        editTexts[index].getText().toString().isEmpty() &&
+                        index > 0) {
+
+                    editTexts[index - 1].requestFocus();
+                    return true;
+                }
+                return false;
             });
         }
     }
@@ -144,14 +150,6 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         }.start();
     }
 
-    private String getEnteredOtp() {
-        return binding.etOtp1.getText().toString().trim() +
-                binding.etOtp2.getText().toString().trim() +
-                binding.etOtp3.getText().toString().trim() +
-                binding.etOtp4.getText().toString().trim() +
-                binding.etOtp5.getText().toString().trim() +
-                binding.etOtp6.getText().toString().trim();
-    }
 
     @Override
     public void onDestroy() {
@@ -165,16 +163,8 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
 
     public void onClick(View view) {
         if (view.getId() == R.id.btnNext) {
-            String otpString = getEnteredOtp();
-
-            if (ValidationUtil.isNetworkAvailable()) {
-                apiCallingOTPVerify(otpString, PreferenceManger.getToken().toString());
-            } else {
-                Toast.makeText(this, R.string.no_internet_connection, Toast.LENGTH_SHORT).show();
-            }
         }
         if (view.getId() == R.id.tvResendOtp) {
-
             apiCallingOTPResend(PreferenceManger.getUSerEmail().toString());
             startResendCountdown();
 

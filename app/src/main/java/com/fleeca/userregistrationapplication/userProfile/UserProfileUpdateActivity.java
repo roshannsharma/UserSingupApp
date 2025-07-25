@@ -12,14 +12,15 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.fleeca.userregistrationapplication.DashBoard.DashBoardActivity;
 import com.fleeca.userregistrationapplication.R;
 import com.fleeca.userregistrationapplication.databinding.ActivityUserProfileUpdateBinding;
 import com.fleeca.userregistrationapplication.userOTP.OTPActivity;
-import com.fleeca.userregistrationapplication.utils.PreferenceManger;
 import com.fleeca.userregistrationapplication.utils.CustomProgressBar;
+import com.fleeca.userregistrationapplication.utils.PreferenceManger;
 import com.fleeca.userregistrationapplication.utils.ValidationUtil;
 
 import java.util.Arrays;
@@ -30,7 +31,7 @@ public class UserProfileUpdateActivity extends AppCompatActivity implements View
     private ActivityUserProfileUpdateBinding mBinding;
     private UserRegistrationViewModel viewModel;
     private String dobForApi;
-    private final static long OTP_EXPIRY_LIMIT = 10 * 60 * 1000; // 10 minutes
+    private final  long OTP_EXPIRY_LIMIT = 10 * 60 * 1000; // 10 minutes
     private CountDownTimer countDownTimer;
 
     @Override
@@ -38,6 +39,9 @@ public class UserProfileUpdateActivity extends AppCompatActivity implements View
         super.onCreate(savedInstanceState);
         mBinding = ActivityUserProfileUpdateBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
+        viewModel = new ViewModelProvider(this).get(UserRegistrationViewModel.class);
+        mBinding.setViewModel(viewModel);
+        mBinding.setLifecycleOwner(this);
         startResendCountdown();
         uiBind();
     }
@@ -48,6 +52,7 @@ public class UserProfileUpdateActivity extends AppCompatActivity implements View
         super.onResume();
         startResendCountdown();
     }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -57,31 +62,36 @@ public class UserProfileUpdateActivity extends AppCompatActivity implements View
     private void uiBind() {
         mBinding.btnNext.setOnClickListener(this);
         mBinding.etDOB.setOnClickListener(this);
-        viewModel = new ViewModelProvider(this).get(UserRegistrationViewModel.class);
+
 
         mBinding.btnNext.setEnabled(false);
         mBinding.btnNext.setBackgroundResource(R.drawable.bt_submit_button_disabled);
+        observeClicks();
 
-        TextWatcher formWatcher = new TextWatcher() {
+    }
+
+    private void observeClicks() {
+        viewModel.btNextClick.observe(this, new Observer<Boolean>() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void onChanged(Boolean clicked) {
+
+                if (Boolean.TRUE.equals(clicked)) {
+                    if (ValidationUtil.isNetworkAvailable()) {
+                        doValidation();
+                    } else {
+                        Toast.makeText(UserProfileUpdateActivity.this, R.string.no_internet_connection, Toast.LENGTH_SHORT).show();
+                    }
+                    viewModel.resetClickEvent();
+                }
             }
+        });
+        viewModel.isFormValid.observe(this, isValid -> {
+            mBinding.btnNext.setEnabled(Boolean.TRUE.equals(isValid));
+            mBinding.btnNext.setBackgroundResource(Boolean.TRUE.equals(isValid)
+                    ? R.drawable.bt_submit_button_background
+                    : R.drawable.bt_submit_button_disabled);
+        });
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                validateForm();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        };
-
-        mBinding.etfirstName.addTextChangedListener(formWatcher);
-        mBinding.etlastName.addTextChangedListener(formWatcher);
-
-        mBinding.etPhone.addTextChangedListener(formWatcher);
-        mBinding.etDOB.addTextChangedListener(formWatcher);
     }
 
     private void checkOtpExpiry() {
@@ -113,6 +123,7 @@ public class UserProfileUpdateActivity extends AppCompatActivity implements View
         if (countDownTimer != null) countDownTimer.cancel();
         mBinding = null;
     }
+
     private void startResendCountdown() {
         long verifiedTime = PreferenceManger.getOTPVerifyTime();
         long currentTime = System.currentTimeMillis();
@@ -135,51 +146,17 @@ public class UserProfileUpdateActivity extends AppCompatActivity implements View
     }
 
 
-    private void validateForm() {
-        boolean isValid = !mBinding.etfirstName.getText().toString().trim().isEmpty()
-                && !mBinding.etlastName.getText().toString().trim().isEmpty()
-                && !mBinding.etPhone.getText().toString().trim().isEmpty()
-                && !mBinding.etDOB.getText().toString().trim().isEmpty();
-
-        mBinding.btnNext.setEnabled(isValid);
-        mBinding.btnNext.setBackgroundResource(isValid ?
-                R.drawable.bt_submit_button_background :
-                R.drawable.bt_submit_button_disabled);
-    }
 
 
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.btnNext) {
-            if (ValidationUtil.isNetworkAvailable()) {
-                doValidation();
-            } else {
-                Toast.makeText(this, R.string.no_internet_connection, Toast.LENGTH_SHORT).show();
-            }
         } else if (view.getId() == R.id.etDOB) {
             openCalendar(mBinding.etDOB);
         }
     }
 
     private void doValidation() {
-
-      /*  if (TextUtils.isEmpty(mBinding.etfirstName.getText().toString().trim())) {
-            mBinding.firstNameError.setText(R.string.first_name_are_required);
-            return;
-        }
-        if (TextUtils.isEmpty(mBinding.etlastName.getText().toString().trim())) {
-            mBinding.lastNameError.setText(R.string.last_name_are_required);
-            return;
-        }
-        if (TextUtils.isEmpty(mBinding.etPhone.getText().toString().trim())) {
-            mBinding.etPhone.setText(R.string.phone_number_are_required);
-            return;
-        }
-        if (TextUtils.isEmpty(mBinding.etDOB.getText().toString().trim())) {
-            mBinding.DOBError.setText(R.string.dob_are_requiredd);
-            return;
-        }*/
-
         String gender = "Male";
         Integer languageId = 1;
         String smoke = "no";
@@ -197,9 +174,13 @@ public class UserProfileUpdateActivity extends AppCompatActivity implements View
         List<Integer> wellbeingPillars = Arrays.asList(1, 2, 3);
 
         UserRegistrationRequest userRegistrationRequest = new UserRegistrationRequest();
-        userRegistrationRequest.setFname(mBinding.etfirstName.getText().toString().trim());
-        userRegistrationRequest.setLname(mBinding.etlastName.getText().toString().trim());
-        userRegistrationRequest.setPhone_number(mBinding.etPhone.getText().toString().trim());
+        String firstName = viewModel.firstName.getValue();
+        String lastName = viewModel.lastName.getValue();
+        String phone = viewModel.phoneNumber.getValue();
+
+        userRegistrationRequest.setFname(firstName.toString().trim());
+        userRegistrationRequest.setLname(lastName.toString().trim());
+        userRegistrationRequest.setPhone_number(phone.toString().trim());
         userRegistrationRequest.setBirthday(dobForApi);
         userRegistrationRequest.setToken(PreferenceManger.getToken());
 
@@ -225,7 +206,6 @@ public class UserProfileUpdateActivity extends AppCompatActivity implements View
         userRegistrationRequest.setEmail(PreferenceManger.getUSerEmail());
         userRegistrationRequest.setTime_zone(timeZone);
         apiCallingUserRegistraionSave(userRegistrationRequest);
-
     }
 
     private void apiCallingUserRegistraionSave(UserRegistrationRequest userRegistrationRequest) {

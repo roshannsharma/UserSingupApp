@@ -1,16 +1,15 @@
-package com.fleeca.userregistrationapplication.UserEmailVerify;
+package com.fleeca.userregistrationapplication.userEmailVerify;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.fleeca.userregistrationapplication.R;
@@ -29,48 +28,42 @@ public class UserSignUpActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         mBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
+        viewModel = new ViewModelProvider(this).get(UserEmailVerfiyViewModel.class);
+        mBinding.setViewModel(viewModel);
+        mBinding.setLifecycleOwner(this);
         uiBind();
     }
 
     private void uiBind() {
-        mBinding.btnNext.setOnClickListener(this);
         mBinding.btnNext.setEnabled(false);
         mBinding.btnNext.setBackgroundResource(R.drawable.bt_submit_button_disabled);
-
-        TextWatcher formWatcher = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                validateForm();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        };
-
-        mBinding.etEmailAddress.addTextChangedListener(formWatcher);
-        mBinding.etPassword.addTextChangedListener(formWatcher);
-        viewModel = new ViewModelProvider(this).get(UserEmailVerfiyViewModel.class);
+        observeClicks();
 
     }
 
-    private void validateForm() {
-        boolean isValid = !mBinding.etEmailAddress.getText().toString().trim().isEmpty()
-                && !mBinding.etPassword.getText().toString().trim().isEmpty();
+    private void observeClicks() {
+        viewModel.isFormValid.observe(this, isValid -> {
+            mBinding.btnNext.setEnabled(isValid);
+            mBinding.btnNext.setBackgroundResource(isValid
+                    ? R.drawable.bt_submit_button_background
+                    : R.drawable.bt_submit_button_disabled);
+        });
 
-        mBinding.btnNext.setEnabled(isValid);
-        mBinding.btnNext.setBackgroundResource(isValid ?
-                R.drawable.bt_submit_button_background :
-                R.drawable.bt_submit_button_disabled);
+        viewModel.btNextClick.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean clicked) {
+                if (Boolean.TRUE.equals(clicked)) {
+                    doSignupValidation();
+                    viewModel.resetClickEvent();
+                }
+            }
+        });
     }
+
 
     public void doSignupValidation() {
-        String email = mBinding.etEmailAddress.getText().toString().trim();
-        String password = mBinding.etPassword.getText().toString().trim();
+        String email = viewModel.email.getValue().toString().trim();
+        String password = viewModel.password.getValue().toString().trim();
 
         if (!ValidationUtil.isValidEmail(email)) {
             mBinding.emailError.setText(R.string.invalid_email_format);
@@ -80,9 +73,10 @@ public class UserSignUpActivity extends AppCompatActivity implements View.OnClic
             mBinding.passwordError.setText(R.string.password_must_be_8_characters_include_1_uppercase_1_number);
             return;
         }
+
         mBinding.emailError.setText("");
         mBinding.passwordError.setText("");
-
+        mBinding.etEmailAddress.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
 
         if (ValidationUtil.isNetworkAvailable()) {
             apiCallingIsEmailVerify(email);
@@ -94,7 +88,7 @@ public class UserSignUpActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.btnNext) {
-            doSignupValidation();
+            //doSignupValidation();
         }
     }
 
@@ -111,7 +105,7 @@ public class UserSignUpActivity extends AppCompatActivity implements View.OnClic
                 if (isVerified) {
                     setEmailVerfityIcon(true);
                     Toast.makeText(this, "Email Verified", Toast.LENGTH_SHORT).show();
-                    PreferenceManger.setUserEmail(mBinding.etEmailAddress.getText().toString().trim());
+                    PreferenceManger.setUserEmail(viewModel.email.getValue().toString().trim());
 
                     if (ValidationUtil.isNetworkAvailable()) {
                         apiCallingOTPSend(email);
@@ -143,8 +137,8 @@ public class UserSignUpActivity extends AppCompatActivity implements View.OnClic
                 Toast.makeText(this, optMsg, Toast.LENGTH_SHORT).show();
 
                 PreferenceManger.setToken(response.getData().getToken().toString());
-                PreferenceManger.setUserPassword(mBinding.etPassword.getText().toString().trim());
-                PreferenceManger.setUserEmail(mBinding.etEmailAddress.getText().toString().trim());
+                PreferenceManger.setUserPassword(viewModel.password.getValue().toString().trim());
+                PreferenceManger.setUserEmail(viewModel.email.getValue().toString().trim());
 
                 Intent intent = new Intent(this, OTPActivity.class);
                 intent.putExtra("SCREEN_MODE", "1");
@@ -166,7 +160,8 @@ public class UserSignUpActivity extends AppCompatActivity implements View.OnClic
             Drawable verifiedIcon = ContextCompat.getDrawable(this, R.drawable.ic_verified);
             mBinding.etEmailAddress.setCompoundDrawablesWithIntrinsicBounds(null, null, verifiedIcon, null);
         } else {
-            mBinding.etEmailAddress.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+            Drawable unVerifiedIcon = ContextCompat.getDrawable(this, R.drawable.ic_unverified);
+            mBinding.etEmailAddress.setCompoundDrawablesWithIntrinsicBounds(null, null, unVerifiedIcon, null);
         }
     }
 }

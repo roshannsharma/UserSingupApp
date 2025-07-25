@@ -4,22 +4,22 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.fleeca.userregistrationapplication.userOTP.OTPViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/login_credential_layout"
+        style="@style/app_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/background"
         android:padding="24dp">
 
         <ImageView
             android:id="@+id/logoImageView"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
+            style="@style/logo_iv"
             android:layout_marginTop="16dp"
-            android:contentDescription="@string/woliba_logo"
-            android:src="@drawable/woliba_logo"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -45,13 +45,9 @@
                 <!-- Title -->
                 <TextView
                     android:id="@+id/tvOtpTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/tiitle_text"
                     android:layout_marginBottom="@dimen/space_medium"
-                    android:text="@string/input_verification_code"
-                    android:textColor="@color/text_color"
-                    android:textSize="@dimen/font_14"
-                    android:textStyle="bold" />
+                    android:text="@string/input_verification_code" />
 
                 <View
                     android:layout_width="match_parent"
@@ -86,26 +82,32 @@
                     <!-- Create 6 boxes -->
                     <EditText
                         android:id="@+id/etOtp1"
+                        android:text="@={viewModel.otp1}"
                         style="@style/OtpBox" />
 
                     <EditText
                         android:id="@+id/etOtp2"
+                        android:text="@={viewModel.otp2}"
                         style="@style/OtpBox" />
 
                     <EditText
                         android:id="@+id/etOtp3"
+                        android:text="@={viewModel.otp3}"
                         style="@style/OtpBox" />
 
                     <EditText
                         android:id="@+id/etOtp4"
+                        android:text="@={viewModel.otp4}"
                         style="@style/OtpBox" />
 
                     <EditText
                         android:id="@+id/etOtp5"
+                        android:text="@={viewModel.otp5}"
                         style="@style/OtpBox" />
 
                     <EditText
                         android:id="@+id/etOtp6"
+                        android:text="@={viewModel.otp6}"
                         style="@style/OtpBox" />
                 </LinearLayout>
 
@@ -142,6 +144,7 @@
             style="@style/bt_submit"
             android:background="@drawable/bt_submit_button_background"
             android:gravity="center"
+            android:onClick="@{()->viewModel.clickOnBt()}"
             android:text="@string/submit"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -1,4 +1,4 @@
-package com.fleeca.userregistrationapplication.UserEmailVerify;
+package com.fleeca.userregistrationapplication.userEmailVerify;
 
 import com.fleeca.userregistrationapplication.utils.CommanResponse;
 

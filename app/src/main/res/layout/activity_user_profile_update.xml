@@ -4,22 +4,22 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.fleeca.userregistrationapplication.userProfile.UserRegistrationViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/login_credential_layout"
+        style="@style/app_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/background"
         android:padding="24dp">
 
         <ImageView
             android:id="@+id/logoImageView"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
+            style="@style/logo_iv"
             android:layout_marginTop="16dp"
-            android:contentDescription="@string/woliba_logo"
-            android:src="@drawable/wolibaa"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,7 +30,6 @@
             android:layout_marginTop="@dimen/space_xx_large"
             app:cardCornerRadius="5dp"
             app:cardElevation="6dp"
-
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/logoImageView">
@@ -48,14 +47,9 @@
 
                     <!-- Heading -->
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        style="@style/tiitle_text"
                         android:layout_marginBottom="@dimen/space_medium"
-                        android:gravity="center"
-                        android:text="@string/complete_your_profile"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/font_14"
-                        android:textStyle="bold" />
+                        android:text="@string/complete_your_profile" />
 
                     <View
                         android:layout_width="match_parent"
@@ -77,16 +71,11 @@
 
                     <EditText
                         android:id="@+id/etfirstName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        style="@style/edit_input"
                         android:layout_marginTop="@dimen/space_micro"
-                        android:background="@drawable/input_border"
                         android:hint="@string/first_name"
-                        android:inputType="textCapWords"
-                        android:padding="@dimen/space_medium"
-                        android:textColor="@color/text_color"
-                        android:textColorHint="@color/grey_color"
-                        android:textSize="15sp" />
+                        android:text="@={viewModel.firstName}"
+                        android:inputType="textCapWords" />
 
                     <TextView
                         android:id="@+id/firstNameError"
@@ -94,7 +83,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:textColor="@color/bt"
-                        android:textSize="10sp" />
+                        android:textSize="@dimen/font_12" />
 
                     <!-- Last Name -->
                     <TextView
@@ -107,16 +96,11 @@
 
                     <EditText
                         android:id="@+id/etlastName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        style="@style/edit_input"
                         android:layout_marginTop="@dimen/space_micro"
-                        android:background="@drawable/input_border"
                         android:hint="@string/last_name"
-                        android:inputType="textCapWords"
-                        android:padding="@dimen/space_medium"
-                        android:textColor="@color/text_color"
-                        android:textColorHint="@color/grey_color"
-                        android:textSize="15sp" />
+                        android:text="@={viewModel.lastName}"
+                        android:inputType="textCapWords" />
 
                     <TextView
                         android:id="@+id/lastNameError"
@@ -124,7 +108,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:textColor="@color/bt"
-                        android:textSize="10sp" />
+                        android:textSize="@dimen/font_12" />
 
                     <!-- Phone -->
                     <TextView
@@ -137,17 +121,12 @@
 
                     <EditText
                         android:id="@+id/etPhone"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        style="@style/edit_input"
                         android:layout_marginTop="@dimen/space_micro"
-                        android:background="@drawable/input_border"
                         android:hint="@string/phone_number"
                         android:inputType="phone"
-                        android:maxLength="10"
-                        android:padding="@dimen/space_medium"
-                        android:textColor="@color/text_color"
-                        android:textColorHint="@color/grey_color"
-                        android:textSize="15sp" />
+                        android:text="@={viewModel.phoneNumber}"
+                        android:maxLength="10" />
 
                     <TextView
                         android:id="@+id/PhoneError"
@@ -155,7 +134,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:textColor="@color/bt"
-                        android:textSize="10sp" />
+                        android:textSize="@dimen/font_12" />
 
                     <!-- DOB -->
                     <TextView
@@ -168,19 +147,14 @@
 
                     <EditText
                         android:id="@+id/etDOB"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        style="@style/edit_input"
                         android:layout_marginTop="@dimen/space_micro"
-                        android:background="@drawable/input_border"
                         android:editable="false"
                         android:focusable="false"
+                        android:text="@={viewModel.dob}"
                         android:focusableInTouchMode="false"
                         android:hint="DOB"
-                        android:inputType="date"
-                        android:padding="@dimen/space_medium"
-                        android:textColor="@color/text_color"
-                        android:textColorHint="@color/grey_color"
-                        android:textSize="15sp" />
+                        android:inputType="date" />
 
                     <TextView
                         android:id="@+id/DOBError"
@@ -188,68 +162,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:textColor="@color/bt"
-                        android:textSize="10sp" />
+                        android:textSize="@dimen/font_12" />
 
                 </LinearLayout>
             </ScrollView>
         </androidx.cardview.widget.CardView>
-
-        <!-- <LinearLayout
-             android:id="@+id/privacLayout"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:orientation="horizontal"
-             app:layout_constraintBottom_toTopOf="@id/btnNext"
-             app:layout_constraintTop_toBottomOf="@id/cardProfileForm">
-
-             <RadioButton
-                 android:id="@+id/rb_button"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:text="I agree to Woliba’s "
-                 app:layout_constraintStart_toStartOf="parent"
-                 app:layout_constraintTop_toTopOf="parent" >
-             </RadioButton>
-
-             <TextView
-                 android:id="@+id/textTermsService"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_marginStart="4dp"
-                 android:background="?selectableItemBackgroundBorderless"
-                 android:clickable="true"
-                 android:focusable="true"
-                 android:text="Terms of Service"
-                 android:textColor="@color/bt"
-                 android:textSize="14sp"
-                 app:layout_constraintStart_toEndOf="@id/rb_button"
-                 app:layout_constraintTop_toTopOf="parent" />
-             <TextView
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_marginStart="4dp"
-                 android:background="?selectableItemBackgroundBorderless"
-                 android:clickable="true"
-                 android:focusable="true"
-                 android:text="and"
-                 android:textSize="14sp"
-                 app:layout_constraintStart_toEndOf="@id/textTermsService" />
-
-             <TextView
-                 android:id="@+id/textTermsPolicy"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_marginStart="4dp"
-                 android:background="?selectableItemBackgroundBorderless"
-                 android:clickable="true"
-                 android:focusable="true"
-                 android:text="Privacy Policy."
-                 android:textColor="@color/bt"
-                 android:textSize="14sp"
-                 app:layout_constraintStart_toEndOf="@id/textTermsService" />
-
-         </LinearLayout>-->
-
 
         <!-- Next Button -->
         <TextView
@@ -257,6 +174,7 @@
             style="@style/bt_submit"
             android:background="@drawable/bt_submit_button_background"
             android:gravity="center"
+            android:onClick="@{()->viewModel.clickOnBt()}"
             android:text="@string/submit"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -30,6 +30,11 @@ The **User Registration App** provides a clean, multi-stage onboarding process:
 ###  DashBoard   
 ![DashBoard Screen](https://raw.githubusercontent.com/roshannsharma/UserSingupApp/refs/heads/master/app/screenshots/step9.jpeg)
 
+### APK File
+![APK File](https://github.com/roshannsharma/UserSingupApp/blob/master/app/screenshots/UserSignup_25_07_2025.apk)
+
+
+
 ---
 ### Libraries & Tools Used
 --Android SDK, Java, MVVM, Retrofit

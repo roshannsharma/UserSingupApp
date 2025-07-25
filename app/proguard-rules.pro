@@ -19,3 +19,75 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+#########################################
+# ViewModel / LiveData (Jetpack)
+#########################################
+-keep class androidx.lifecycle.** { *; }
+-keepclassmembers class * {
+    @androidx.lifecycle.* <methods>;
+}
+-keepclassmembers class * {
+    @androidx.annotation.Keep <fields>;
+}
+-keepclassmembers class * {
+    @androidx.annotation.Keep <methods>;
+}
+
+#########################################
+# Retrofit + Gson
+#########################################
+-keep class com.google.gson.** { *; }
+-keep class com.squareup.retrofit2.** { *; }
+-keep class retrofit2.** { *; }
+-keepattributes Signature
+-keepattributes RuntimeVisibleAnnotations
+-keepattributes AnnotationDefault
+
+# Keep model classes used by Gson (annotated with @SerializedName)
+-keepclassmembers class * {
+    @com.google.gson.annotations.SerializedName <fields>;
+}
+
+#########################################
+# OkHttp
+#########################################
+-dontwarn okhttp3.**
+-keep class okhttp3.** { *; }
+-keep interface okhttp3.** { *; }
+
+#########################################
+# Glide
+#########################################
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public class * extends com.bumptech.glide.module.AppGlideModule
+-keep class com.bumptech.glide.** { *; }
+-keep interface com.bumptech.glide.** { *; }
+-dontwarn com.bumptech.glide.**
+
+#########################################
+# RxJava3
+#########################################
+-keep class io.reactivex.rxjava3.** { *; }
+-dontwarn io.reactivex.rxjava3.**
+
+#########################################
+# General AndroidX + Keep ViewModels
+#########################################
+-keepclassmembers class * extends androidx.lifecycle.ViewModel {
+    <init>(...);
+}
+-keepclassmembers class * {
+    @androidx.lifecycle.ViewModel <methods>;
+}
+
+#########################################
+# Multidex
+#########################################
+-dontwarn android.support.multidex.**
+
+#########################################
+# Optional: Prevent removal of DataBinding-generated classes
+#########################################
+-keep class **.databinding.*Binding { *; }
+
